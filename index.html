@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DanyaX13 - Официальный сайт</title>
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap');
+        
+        :root {
+            --primary: #00ff9d;
+            --bg: #0a0a0a;
+            --card: #1a1a1a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 8px var(--primary);
+        }
+        
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #00ff9d, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .subscribe-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: #000;
+            padding: 1rem 2.5rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.4s;
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.5);
+        }
+        
+        .subscribe-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(0, 255, 157, 0.8);
+        }
+        
+        .section {
+            padding: 100px 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+            text-shadow: 0 0 15px var(--primary);
+        }
+        
+        .about {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            border: 1px solid #333;
+        }
+        
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .video-card {
+            background: #111;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid #333;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .video-info {
+            padding: 1.2rem;
+        }
+        
+        footer {
+            background: #000;
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+            border-top: 2px solid var(--primary);
+        }
+        
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin: 2rem 0;
+            font-size: 2.4rem;
+        }
+        
+        .socials a {
+            color: #e0e0e0;
+            transition: all 0.3s;
+        }
+        
+        .socials a:hover {
+            color: var(--primary);
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">DanyaX13</div>
+            <ul class="nav-links">
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#about">Обо мне</a></li>
+                <li><a href="#videos">Видео</a></li>
+                <li><a href="https://www.youtube.com/@DanyaX13" target="_blank">YouTube</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>DANYAX13</h1>
+            <p>MOT FUNK 5 уже вышел!!</p>
+            <a href="https://www.youtube.com/@DanyaX13?sub_confirmation=1" 
+               target="_blank" 
+               class="subscribe-btn">
+                ПОДПИСАТЬСЯ НА КАНАЛ
+            </a>
+        </div>
+    </section>
+
+    <!-- Обо мне -->
+    <section id="about" class="section">
+        <h2 class="section-title">ПРОСТО ЧЕЛИКС</h2>
+        <div class="about">
+            <p style="font-size: 1.3rem; text-align: center; max-width: 700px; margin: 0 auto;">
+                Привет! Я DanyaX13 — просто челикс, который делает контент по Geometry Dash, Roblox, музыке и мемам.
+            </p>
+            
+            <div style="text-align: center; margin-top: 3rem; font-size: 1.2rem;">
+                <p><strong>Подписчиков:</strong> 85</p>
+                <p><strong>Видео:</strong> 167</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Последние видео -->
+    <section id="videos" class="section" style="background: #111;">
+        <h2 class="section-title">ПОСЛЕДНИЕ ВИДЕО</h2>
+        <div class="videos-grid">
+            
+            <!-- Видео 1 -->
+            <div class="video-card">
+                <iframe width="100%" height="200" 
+                        src="https://www.youtube.com/embed/eLZxKoaci4c" 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allowfullscreen></iframe>
+                <div class="video-info">
+                    <h3>Nine Circles (DanyaX13 REMIX)</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.7;">Geometry Dash</p>
+                </div>
+            </div>
+            
+            <!-- Видео 2 -->
+            <div class="video-card">
+                <iframe width="100%" height="200" 
+                        src="https://www.youtube.com/embed/LWmpuQaihEA" 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allowfullscreen></iframe>
+                <div class="video-info">
+                    <h3>Салют на 9 мая в Ярославле</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.7;">Real Life</p>
+                </div>
+            </div>
+            
+            <!-- Видео 3 -->
+            <div class="video-card">
+                <iframe width="100%" height="200" 
+                        src="https://www.youtube.com/embed/WaJxFvpSjUU" 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allowfullscreen></iframe>
+                <div class="video-info">
+                    <h3>ISpyWithMyLittleEye (пытаюсь пройти)</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.7;">Geometry Dash</p>
+                </div>
+            </div>
+            
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="https://www.youtube.com/@DanyaX13/videos" 
+               target="_blank" 
+               style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 1.2rem;">
+                → Смотреть все видео на YouTube
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="socials">
+            <a href="https://www.youtube.com/@DanyaX13" target="_blank" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://discord.gg/sm36EhzYFk" target="_blank" title="Discord">
+                <i class="fab fa-discord"></i>
+            </a>
+            <a href="https://t.me/DanyaX13TG2" target="_blank" title="Telegram">
+                <i class="fab fa-telegram"></i>
+            </a>
+        </div>
+        <p>&copy; 2026 DanyaX13. Все права защищены.</p>
+    </footer>
+
+    <script>
+        // Плавный скролл
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href') !== '#') {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
