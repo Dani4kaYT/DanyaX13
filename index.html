@@ -11,20 +11,21 @@
         
         :root {
             --primary: #00ff9d;
+            --bg: #0a0a0a;
+            --card: #1a1a1a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
         body {
             font-family: 'Inter', system-ui, sans-serif;
-            background: #0a0a0a;
+            background: var(--bg);
             color: #e0e0e0;
             line-height: 1.6;
-            transition: all 0.4s;
-        }
-        
-        body.light {
-            --primary: #00aa6b;
-            background: #f0f0f0;
-            color: #1a1a1a;
         }
         
         .navbar {
@@ -35,10 +36,6 @@
             backdrop-filter: blur(10px);
             z-index: 1000;
             border-bottom: 2px solid var(--primary);
-        }
-        
-        body.light .navbar {
-            background: rgba(240, 240, 240, 0.95);
         }
         
         .nav-container {
@@ -64,18 +61,15 @@
             align-items: center;
         }
         
-        .nav-links a, .nav-links button {
-            color: inherit;
+        .nav-links a {
+            color: #e0e0e0;
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s;
         }
         
-        .theme-toggle {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+        .nav-links a:hover {
+            color: var(--primary);
         }
         
         .hero {
@@ -85,10 +79,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-        }
-        
-        body.light .hero {
-            background: linear-gradient(135deg, #e0e0e0, #c0c0c0);
+            position: relative;
         }
         
         .hero-content {
@@ -99,32 +90,110 @@
         .hero h1 {
             font-size: 4.5rem;
             margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--primary), #00ccff);
+            background: linear-gradient(90deg, #00ff9d, #00ccff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
+        .subscribe-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: #000;
+            padding: 1rem 2.5rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.4s;
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.5);
+        }
+        
         .support-btn {
             display: inline-block;
-            background: #ff00aa;
+            background: #ff0066;
             color: white;
             padding: 1rem 2.5rem;
             font-size: 1.2rem;
             font-weight: 700;
             border-radius: 50px;
             text-decoration: none;
-            margin-top: 1rem;
-            box-shadow: 0 0 20px rgba(255, 0, 170, 0.5);
+            margin-left: 15px;
+            box-shadow: 0 0 25px rgba(255, 0, 102, 0.6);
             transition: all 0.3s;
         }
         
         .support-btn:hover {
-            transform: scale(1.08);
+            transform: scale(1.05);
+            box-shadow: 0 0 35px rgba(255, 0, 102, 0.8);
+        }
+        
+        .section {
+            padding: 100px 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+            text-shadow: 0 0 15px var(--primary);
+        }
+        
+        .about {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            border: 1px solid #333;
+        }
+        
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .video-card {
+            background: #111;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid #333;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        footer {
+            background: #000;
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+            border-top: 2px solid var(--primary);
+        }
+        
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin: 2rem 0;
+            font-size: 2.4rem;
+        }
+        
+        .socials a {
+            color: #e0e0e0;
+            transition: all 0.3s;
+        }
+        
+        .socials a:hover {
+            color: var(--primary);
+            transform: translateY(-5px);
         }
     </style>
 </head>
 <body>
-    <!-- Навигация -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">DanyaX13</div>
@@ -133,37 +202,31 @@
                 <li><a href="#about">Обо мне</a></li>
                 <li><a href="#videos">Видео</a></li>
                 <li><a href="https://www.youtube.com/@DanyaX13" target="_blank">YouTube</a></li>
-                <li><button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Hero -->
     <section id="home" class="hero">
         <div class="hero-content">
             <h1>DANYAX13</h1>
             <p>MOT FUNK 5 уже вышел!!</p>
-            
-            <a href="https://www.youtube.com/@DanyaX13?sub_confirmation=1" 
-               target="_blank" 
-               class="subscribe-btn">
-                ПОДПИСАТЬСЯ НА КАНАЛ
-            </a>
-            <br><br>
-            <a href="#" class="support-btn" id="supportBtn">
-                <i class="fas fa-heart"></i> ПОДДЕРЖАТЬ
-            </a>
+            <div style="margin-top: 2rem;">
+                <a href="https://www.youtube.com/@DanyaX13?sub_confirmation=1" target="_blank" class="subscribe-btn">
+                    ПОДПИСАТЬСЯ НА КАНАЛ
+                </a>
+                <a href="#" id="supportBtn" class="support-btn">
+                    <i class="fas fa-heart"></i> ПОДДЕРЖАТЬ
+                </a>
+            </div>
         </div>
     </section>
 
-    <!-- Обо мне -->
     <section id="about" class="section">
         <h2 class="section-title">ПРОСТО ЧЕЛИКС</h2>
         <div class="about">
             <p style="font-size: 1.3rem; text-align: center; max-width: 700px; margin: 0 auto;">
                 Привет! Я DanyaX13 — просто челикс, который делает контент по Geometry Dash, Roblox, музыке и мемам.
             </p>
-            
             <div style="text-align: center; margin-top: 3rem; font-size: 1.2rem;">
                 <p><strong>Подписчиков:</strong> 85</p>
                 <p><strong>Видео:</strong> 167</p>
@@ -171,66 +234,43 @@
         </div>
     </section>
 
-    <!-- Видео -->
     <section id="videos" class="section" style="background: #111;">
         <h2 class="section-title">ПОСЛЕДНИЕ ВИДЕО</h2>
         <div class="videos-grid">
             <div class="video-card">
                 <iframe width="100%" height="200" src="https://www.youtube.com/watch?v=7Ls8ynsWrjw" frameborder="0" allowfullscreen></iframe>
-                <div class="video-info">
-                    <h3>Лучшее видео</h3>
+                <div class="video-info" style="padding: 1.2rem;">
+                    <h3>Новое видео</h3>
                 </div>
             </div>
             <div class="video-card">
                 <iframe width="100%" height="200" src="https://www.youtube.com/watch?v=eLZxKoaci4c" frameborder="0" allowfullscreen></iframe>
-                <div class="video-info">
+                <div class="video-info" style="padding: 1.2rem;">
                     <h3>Второе видео</h3>
                 </div>
             </div>
             <div class="video-card">
                 <iframe width="100%" height="200" src="https://www.youtube.com/watch?v=LWmpuQaihEA&t=8s" frameborder="0" allowfullscreen></iframe>
-                <div class="video-info">
+                <div class="video-info" style="padding: 1.2rem;">
                     <h3>Третье видео</h3>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="socials">
             <a href="https://www.youtube.com/@DanyaX13" target="_blank"><i class="fab fa-youtube"></i></a>
             <a href="https://discord.gg/sm36EhzYFk" target="_blank"><i class="fab fa-discord"></i></a>
             <a href="https://t.me/DanyaX13TG2" target="_blank"><i class="fab fa-telegram"></i></a>
         </div>
-        <p>&copy; 2026 DanyaX13. Все права защищены.</p>
+        <p>&copy; 2026 DanyaX13. Просто челикс.</p>
     </footer>
 
     <script>
-        // Тема
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-
-        if (localStorage.getItem('theme') === 'light') {
-            body.classList.add('light');
-            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        }
-
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('light');
-            if (body.classList.contains('light')) {
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                localStorage.setItem('theme', 'light');
-            } else {
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-
-        // Поддержать
         document.getElementById('supportBtn').addEventListener('click', (e) => {
             e.preventDefault();
-            const choice = confirm("Куда перевести поддержку?\n\nOK — Boosty\nОтмена — DonationAlerts");
+            const choice = confirm("Куда поддержать?\n\nOK — Boosty\nОтмена — DonationAlerts");
             if (choice) {
                 window.open('https://boosty.to/danyax12yt', '_blank');
             } else {
