@@ -3,286 +3,1284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DanyaX13 - Официальный сайт</title>
+    <title>DanyaX13 — Официальный сайт</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Press+Start+2P&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
         :root {
             --primary: #00ff9d;
-            --bg: #0a0a0a;
-            --card: #1a1a1a;
+            --primary-dark: #00cc7d;
+            --secondary: #00ccff;
+            --accent: #ff00aa;
+            --accent-2: #7b2ff7;
+            --bg: #030305;
+            --bg-2: #0a0a14;
+            --card: rgba(15, 15, 25, 0.7);
+            --border: rgba(0, 255, 157, 0.12);
+            --text: #eef0f8;
+            --text-dim: #8a8aa8;
+            --glow-primary: 0 0 20px rgba(0, 255, 157, 0.5), 0 0 60px rgba(0, 255, 157, 0.2);
+            --glow-secondary: 0 0 20px rgba(0, 204, 255, 0.5), 0 0 60px rgba(0, 204, 255, 0.2);
+            --glow-accent: 0 0 20px rgba(255, 0, 170, 0.5), 0 0 60px rgba(255, 0, 170, 0.2);
+            --glow-purple: 0 0 20px rgba(123, 47, 247, 0.5), 0 0 60px rgba(123, 47, 247, 0.2);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', system-ui, sans-serif;
             background: var(--bg);
-            color: #e0e0e0;
-            line-height: 1.6;
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
         }
-        
+
+        /* ===== Многослойный анимированный фон ===== */
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            pointer-events: none;
+        }
+
+        .bg-layer.grid {
+            background-image:
+                linear-gradient(rgba(0, 255, 157, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 157, 0.04) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, black 20%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, black 20%, transparent 70%);
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 80px 80px; }
+        }
+
+        .bg-layer.orbs {
+            background:
+                radial-gradient(ellipse 60% 50% at 15% 15%, rgba(0, 255, 157, 0.12), transparent 60%),
+                radial-gradient(ellipse 50% 50% at 85% 85%, rgba(123, 47, 247, 0.12), transparent 60%),
+                radial-gradient(ellipse 40% 40% at 80% 20%, rgba(0, 204, 255, 0.08), transparent 60%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255, 0, 170, 0.06), transparent 60%);
+            animation: orbPulse 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes orbPulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .bg-layer.noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+            opacity: 0.025;
+            z-index: -2;
+        }
+
+        /* ===== Плавающие частицы ===== */
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+            animation: floatUp linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* ===== Навигация ===== */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(3, 3, 5, 0.6);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
             z-index: 1000;
-            border-bottom: 2px solid var(--primary);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
+        .navbar.scrolled {
+            background: rgba(3, 3, 5, 0.92);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(0, 255, 157, 0.15);
+        }
+
         .nav-container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 1rem 2.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1.8rem;
-            color: var(--primary);
-            text-shadow: 0 0 10px var(--primary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #00ff9d, #00ccff, #7b2ff7, #00ff9d);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 5s linear infinite;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
         }
-        
+
+        .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 20px rgba(0, 255, 157, 0.6));
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
             list-style: none;
+            align-items: center;
         }
-        
+
         .nav-links a {
-            color: #e0e0e0;
+            color: var(--text-dim);
             text-decoration: none;
             font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            padding: 0.5rem 0;
             transition: all 0.3s;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
-        
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
         .nav-links a:hover {
             color: var(--primary);
+            text-shadow: 0 0 15px rgba(0, 255, 157, 0.6);
         }
-        
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        /* ===== Hero ===== */
         .hero {
-            height: 100vh;
-            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
+            position: relative;
+            padding: 8rem 2rem 4rem;
+            overflow: hidden;
         }
-        
+
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+
+        .hero-orb.o1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 255, 157, 0.4), transparent 70%);
+            top: 10%;
+            left: 5%;
+            animation: orbFloat1 12s ease-in-out infinite;
+        }
+
+        .hero-orb.o2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 204, 255, 0.35), transparent 70%);
+            bottom: 10%;
+            right: 5%;
+            animation: orbFloat2 14s ease-in-out infinite;
+        }
+
+        .hero-orb.o3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(123, 47, 247, 0.3), transparent 70%);
+            top: 40%;
+            right: 30%;
+            animation: orbFloat3 16s ease-in-out infinite;
+        }
+
+        @keyframes orbFloat1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(60px, 40px) scale(1.1); }
+        }
+
+        @keyframes orbFloat2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-50px, -30px) scale(1.15); }
+        }
+
+        @keyframes orbFloat3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -50px) scale(0.9); }
+        }
+
         .hero-content {
-            max-width: 800px;
+            max-width: 900px;
             padding: 2rem;
+            position: relative;
+            z-index: 1;
         }
-        
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.2rem;
+            background: rgba(0, 255, 157, 0.08);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.15);
+        }
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+            animation: pulseDot 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
         .hero h1 {
-            font-size: 4.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, #00ff9d, #00ccff);
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5.5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #00ff9d 30%, #00ccff 60%, #7b2ff7 100%);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s linear infinite, fadeInUp 1s ease-out 0.2s backwards;
+            line-height: 1.1;
+            letter-spacing: 6px;
+            filter: drop-shadow(0 0 40px rgba(0, 255, 157, 0.3));
         }
-        
-        .subscribe-btn, .support-boosty, .support-da {
-            display: inline-block;
-            padding: 1rem 2.5rem;
+
+        .hero-subtitle {
             font-size: 1.2rem;
+            color: var(--text-dim);
+            max-width: 750px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.9;
+            white-space: pre-line;
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+        }
+
+        /* ===== Кнопки ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            padding: 1.1rem 2.4rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 14px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            letter-spacing: 1.5px;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.7s ease;
+            z-index: 1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn i, .btn span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.4), 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 0 50px rgba(0, 255, 157, 0.7), 0 0 100px rgba(0, 204, 255, 0.4), 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .btn-pink {
+            background: linear-gradient(135deg, #ff00aa, #ff4dc4);
+            color: white;
+            box-shadow: var(--glow-accent);
+        }
+
+        .btn-pink:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 0 50px rgba(255, 0, 170, 0.7), 0 0 100px rgba(255, 0, 170, 0.4), 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .btn-blue {
+            background: linear-gradient(135deg, #4a90e2, #6bb3ff);
+            color: white;
+            box-shadow: var(--glow-secondary);
+        }
+
+        .btn-blue:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 0 50px rgba(74, 144, 226, 0.7), 0 0 100px rgba(74, 144, 226, 0.4), 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        /* ===== Секции ===== */
+        .section {
+            padding: 120px 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            padding: 0 2rem;
+        }
+
+        .section-label::before,
+        .section-label::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 25px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary));
+        }
+
+        .section-label::before { left: -5px; }
+        .section-label::after {
+            right: -5px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 157, 0.4));
+        }
+
+        /* ===== Обо мне ===== */
+        .about-card {
+            background: var(--card);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-radius: 28px;
+            padding: 4rem;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 30px;
+            padding: 2px;
+            background: conic-gradient(from 0deg, transparent, var(--primary), transparent 30%, var(--secondary), transparent 60%, var(--accent), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            animation: rotateConic 8s linear infinite;
+            pointer-events: none;
+        }
+
+        .about-card:hover::before {
+            opacity: 0.6;
+        }
+
+        @keyframes rotateConic {
+            100% { transform: rotate(360deg); }
+        }
+
+        .about-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 60px rgba(0, 255, 157, 0.08);
+        }
+
+        .about-text {
+            font-size: 1.15rem;
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto;
+            white-space: pre-line;
+            color: var(--text-dim);
+            position: relative;
+            z-index: 1;
+            line-height: 2;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: rgba(0, 255, 157, 0.03);
+            border: 1px solid rgba(0, 255, 157, 0.1);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 255, 157, 0.4);
+            background: rgba(0, 255, 157, 0.06);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 255, 157, 0.1);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-icon {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 157, 0.5));
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            filter: drop-shadow(0 0 15px rgba(0, 255, 157, 0.3));
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* ===== Музыка ===== */
+        .music-section {
+            max-width: 100%;
+            padding: 120px 2rem;
+            background: linear-gradient(180deg, transparent, rgba(123, 47, 247, 0.03), transparent);
+        }
+
+        .music-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-radius: 28px;
+            padding: 4rem 3rem;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        .music-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 30px;
+            padding: 2px;
+            background: conic-gradient(from 0deg, transparent, var(--accent-2), transparent 30%, var(--accent), transparent 60%, var(--secondary), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            animation: rotateConic 8s linear infinite;
+            pointer-events: none;
+        }
+
+        .music-card:hover::before {
+            opacity: 0.7;
+        }
+
+        .music-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 60px rgba(123, 47, 247, 0.15);
+        }
+
+        .music-icon {
+            font-size: 4rem;
+            background: linear-gradient(135deg, var(--accent-2), var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 25px rgba(123, 47, 247, 0.5));
+            animation: musicPulse 2.5s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 25px rgba(123, 47, 247, 0.5)); }
+            50% { transform: scale(1.08); filter: drop-shadow(0 0 40px rgba(255, 0, 170, 0.6)); }
+        }
+
+        .music-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .music-title .highlight {
+            background: linear-gradient(135deg, var(--accent-2), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(255, 0, 170, 0.4));
+        }
+
+        .music-text {
+            font-size: 1.05rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .music-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            padding: 1.3rem 3rem;
+            font-size: 1rem;
             font-weight: 700;
             border-radius: 50px;
             text-decoration: none;
-            transition: all 0.4s;
-            margin: 8px;
-        }
-        
-        .subscribe-btn {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 30px rgba(0, 255, 157, 0.5);
-        }
-        
-        .support-boosty {
-            background: #ff00aa;
-            color: white;
-            box-shadow: 0 0 25px rgba(255, 0, 170, 0.6);
-        }
-        
-        .support-da {
-            background: #4a90e2;
-            color: white;
-            box-shadow: 0 0 25px rgba(74, 144, 226, 0.6);
-        }
-        
-        .support-boosty:hover, .support-da:hover {
-            transform: scale(1.05);
-        }
-        
-        .section {
-            padding: 100px 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .section-title {
-            font-size: 2.8rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: var(--primary);
-            text-shadow: 0 0 15px var(--primary);
-        }
-        
-        .about {
-            background: var(--card);
-            border-radius: 20px;
-            padding: 3rem;
-            margin-bottom: 4rem;
-            border: 1px solid #333;
-        }
-        
-        .videos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-        
-        .video-card {
-            background: #111;
-            border-radius: 15px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            letter-spacing: 2px;
+            position: relative;
             overflow: hidden;
-            transition: transform 0.3s;
-            border: 1px solid #333;
+            background: linear-gradient(135deg, #7b2ff7, #ff00aa);
+            color: white;
+            box-shadow: 0 0 30px rgba(123, 47, 247, 0.5), 0 0 60px rgba(255, 0, 170, 0.3);
+            text-transform: uppercase;
+            z-index: 1;
         }
-        
-        .video-card:hover {
-            transform: translateY(-10px);
+
+        .music-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.7s ease;
+            z-index: 1;
         }
-        
+
+        .music-btn:hover::before {
+            left: 100%;
+        }
+
+        .music-btn i, .music-btn span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .music-btn:hover {
+            transform: translateY(-5px) scale(1.04);
+            box-shadow: 0 0 60px rgba(123, 47, 247, 0.8), 0 0 120px rgba(255, 0, 170, 0.5), 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        /* ===== Подвал ===== */
         footer {
-            background: #000;
-            padding: 4rem 2rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.85));
+            padding: 5rem 2rem 2.5rem;
             text-align: center;
-            border-top: 2px solid var(--primary);
+            border-top: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+            box-shadow: 0 0 30px var(--primary);
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 157, 0.3));
+        }
+
+        .footer-tagline {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
+            letter-spacing: 1px;
+        }
+
         .socials {
             display: flex;
             justify-content: center;
-            gap: 2.5rem;
-            margin: 2rem 0;
-            font-size: 2.4rem;
+            gap: 1.5rem;
+            margin: 2rem 0 2.5rem;
         }
-        
-        .socials a {
-            color: #e0e0e0;
-            transition: all 0.3s;
+
+        .social-link {
+            color: var(--text-dim);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            position: relative;
+            font-size: 1.4rem;
+            text-decoration: none;
+            overflow: hidden;
         }
-        
-        .socials a:hover {
-            color: var(--primary);
-            transform: translateY(-5px);
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: 0;
+        }
+
+        .social-link i {
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s;
+        }
+
+        .social-link:hover {
+            transform: translateY(-8px) scale(1.08);
+            border-color: transparent;
+            color: #000;
+            box-shadow: 0 0 40px rgba(0, 255, 157, 0.4), 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .social-link:hover::before {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* ===== Адаптивность ===== */
+        @media (max-width: 900px) {
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .about-card {
+                padding: 2.5rem 1.8rem;
+            }
+
+            .section {
+                padding: 80px 1.5rem;
+            }
+
+            .music-card {
+                padding: 3rem 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0.9rem 1.2rem;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+                letter-spacing: 2px;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 0.72rem;
+                letter-spacing: 0.5px;
+            }
+
+            .hero {
+                padding: 7rem 1.5rem 3rem;
+            }
+
+            .hero h1 {
+                letter-spacing: 3px;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 0.95rem 1.6rem;
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+            }
+
+            .section-title {
+                letter-spacing: 2px;
+            }
+
+            .about-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .about-text {
+                font-size: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .music-icon {
+                font-size: 3rem;
+            }
+
+            .music-title {
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+            }
+
+            .music-text {
+                font-size: 0.95rem;
+            }
+
+            .music-btn {
+                padding: 1.1rem 2rem;
+                font-size: 0.85rem;
+            }
+
+            .social-link {
+                width: 52px;
+                height: 52px;
+                font-size: 1.2rem;
+                border-radius: 14px;
+            }
+
+            .footer-logo {
+                font-size: 1.3rem;
+                letter-spacing: 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                gap: 0.7rem;
+            }
+
+            .nav-links a {
+                font-size: 0.65rem;
+            }
+
+            .logo {
+                font-size: 0.95rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .music-btn {
+                width: 100%;
+            }
+        }
+
+        /* ===== Скроллбар ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary), var(--secondary), var(--accent-2));
+            border-radius: 10px;
+            border: 2px solid var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+        }
+
+        /* ===== Reveal анимации ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== Прогресс-бар скролла ===== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent-2));
+            z-index: 9999;
+            width: 0%;
+            box-shadow: 0 0 15px var(--primary);
+            transition: width 0.1s linear;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
+
+    <!-- ===== Фоновые слои ===== -->
+    <div class="bg-layer grid"></div>
+    <div class="bg-layer orbs"></div>
+    <div class="bg-layer noise"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- ===== Прогресс-бар скролла ===== -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- ===== Навигация ===== -->
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="logo">DanyaX13</div>
             <ul class="nav-links">
                 <li><a href="#home">Главная</a></li>
                 <li><a href="#about">Обо мне</a></li>
-                <li><a href="#videos">Видео</a></li>
+                <li><a href="#music">Музыка</a></li>
                 <li><a href="https://www.youtube.com/@DanyaX13" target="_blank">YouTube</a></li>
             </ul>
         </div>
     </nav>
 
+    <!-- ===== Hero ===== -->
     <section id="home" class="hero">
+        <div class="hero-orb o1"></div>
+        <div class="hero-orb o2"></div>
+        <div class="hero-orb o3"></div>
+
         <div class="hero-content">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                Геймер • Контент-мейкер
+            </div>
             <h1>DANYAX13</h1>
-            <p>Привет! Рад видеть тебя на моем сайте! 👋
+            <p class="hero-subtitle">Привет! Рад видеть тебя на моем сайте! 👋
 
 Я обычный геймер, который обожает виртуальные миры и хочет делиться этими эмоциями с тобой. Здесь ты найдешь прохождения, интересные моменты из игр и мои честные впечатления без лишнего пафоса.👌
 
 Канал только растет, поэтому каждый твой лайк, комментарий и подписка для меня на вес золота.👍
 
 Обязательно подписывайся, впереди много интересного!☺️</p>
-            
-            <div style="margin-top: 2rem;">
-                <a href="https://www.youtube.com/@DanyaX13?sub_confirmation=1" target="_blank" class="subscribe-btn">
-                    ПОДПИСАТЬСЯ НА КАНАЛ
+
+            <div class="hero-buttons">
+                <a href="https://www.youtube.com/@DanyaX13?sub_confirmation=1" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-youtube"></i> <span>Подписаться</span>
                 </a>
-            </div>
-            
-            <div style="margin-top: 1.5rem;">
-                <a href="https://boosty.to/danyax12yt" target="_blank" class="support-boosty">
-                    <i class="fas fa-heart"></i> Boosty
+                <a href="https://boosty.to/danyax12yt" target="_blank" class="btn btn-pink">
+                    <i class="fas fa-heart"></i> <span>Boosty</span>
                 </a>
-                <a href="https://www.donationalerts.com/r/dani4kayt" target="_blank" class="support-da">
-                    <i class="fas fa-heart"></i> DonationAlerts
+                <a href="https://www.donationalerts.com/r/dani4kayt" target="_blank" class="btn btn-blue">
+                    <i class="fas fa-heart"></i> <span>DonationAlerts</span>
                 </a>
             </div>
         </div>
     </section>
 
-    <section id="about" class="section">
-        <h2 class="section-title">ПРОСТО ЧЕЛИКС</h2>
-        <div class="about">
-            <p style="font-size: 1.3rem; text-align: center; max-width: 700px; margin: 0 auto;">
-                Привет! 👋
+    <!-- ===== Обо мне ===== -->
+    <section id="about" class="section reveal">
+        <div class="section-header">
+            <div class="section-label">Обо мне</div>
+            <h2 class="section-title">ПРОСТО <span class="highlight">ЧЕЛИКС</span></h2>
+        </div>
+        <div class="about-card">
+            <p class="about-text">Привет! 👋
 
 Я обычный геймер, который обожает виртуальные миры и хочет делиться этими эмоциями с тобой. Здесь ты найдешь прохождения, интересные моменты из игр и мои честные впечатления без лишнего пафоса.👌
 
 Канал только растет, поэтому каждый твой лайк, комментарий и подписка для меня на вес золота.👍
 
-Обязательно подписывайся, впереди много интересного!☺️
-            </p>
-            <div style="text-align: center; margin-top: 3rem; font-size: 1.2rem;">
-                <p><strong>Подписчиков:</strong> 89</p>
-                <p><strong>Видео:</strong> 186</p>
-            </div>
-        </div>
-    </section>
+Обязательно подписывайся, впереди много интересного!☺️</p>
 
-    <section id="videos" class="section" style="background: #111;">
-        <h2 class="section-title">ПОСЛЕДНИЕ ВИДЕО</h2>
-        <div class="videos-grid">
-            <div class="video-card">
-                <iframe width="100%" height="200" src="https://www.youtube.com/watch?v=7Ls8ynsWrjw" frameborder="0" allowfullscreen></iframe>
-                <div class="video-info" style="padding:1.2rem;">
-                    <h3>Новое видео</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-number" data-target="92">0</div>
+                    <div class="stat-label">Подписчиков</div>
                 </div>
-            </div>
-            <div class="video-card">
-                <iframe width="100%" height="200" src="https://www.youtube.com/watch?v=eLZxKoaci4c" frameborder="0" allowfullscreen></iframe>
-                <div class="video-info" style="padding:1.2rem;">
-                    <h3>Второе видео</h3>
-                </div>
-            </div>
-            <div class="video-card">
-                <iframe width="100%" height="200" src="https://www.youtube.com/watch?v=LWmpuQaihEA&t=8s" frameborder="0" allowfullscreen></iframe>
-                <div class="video-info" style="padding:1.2rem;">
-                    <h3>Третье видео</h3>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-video"></i></div>
+                    <div class="stat-number" data-target="201">0</div>
+                    <div class="stat-label">Видео</div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ===== Музыка ===== -->
+    <section id="music" class="music-section reveal">
+        <div class="section-header">
+            <div class="section-label">Творчество</div>
+            <h2 class="section-title">МОЯ <span class="highlight">МУЗЫКА</span></h2>
+        </div>
+        <div class="music-card">
+            <div class="music-icon"><i class="fas fa-music"></i></div>
+            <h3 class="music-title">Я ЕЩЁ И <span class="highlight">ПЕСНИ ПИШУ</span></h3>
+            <p class="music-text">Помимо игр я создаю музыку. Заходи послушать мои треки — буду рад твоей поддержке! 🎧</p>
+            <a href="https://zvuk.com/artist/214052148" target="_blank" class="music-btn">
+                <i class="fas fa-headphones"></i> <span>Слушать на Звуке</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ===== Подвал ===== -->
     <footer>
+        <div class="footer-logo">DANYAX13</div>
+        <p class="footer-tagline">Играем вместе с 2025 года</p>
+
         <div class="socials">
-            <a href="https://www.youtube.com/@DanyaX13" target="_blank"><i class="fab fa-youtube"></i></a>
-            <a href="https://discord.gg/sm36EhzYFk" target="_blank"><i class="fab fa-discord"></i></a>
-            <a href="https://t.me/DanyaX13TG2" target="_blank"><i class="fab fa-telegram"></i></a>
+            <a href="https://www.youtube.com/@DanyaX13" target="_blank" class="social-link" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://discord.gg/sm36EhzYFk" target="_blank" class="social-link" title="Discord">
+                <i class="fab fa-discord"></i>
+            </a>
+            <a href="https://t.me/DanyaX13TG2" target="_blank" class="social-link" title="Telegram">
+                <i class="fab fa-telegram"></i>
+            </a>
         </div>
-        <p>&copy; 2026 DanyaX13. Все права защищены.</p>
+
+        <div class="footer-bottom">
+            <span>&copy; 2026 DanyaX13. Все права защищены.</span>
+        </div>
     </footer>
+
+    <script>
+        // ===== Прогресс-бар скролла =====
+        const scrollProgress = document.getElementById('scrollProgress');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = progress + '%';
+        });
+
+        // ===== Навбар =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ===== Reveal при скролле =====
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -80px 0px'
+        });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ===== Счётчики статистики =====
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.target);
+                    const duration = 2000;
+                    const startTime = performance.now();
+
+                    const update = (currentTime) => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 4);
+                        const current = Math.floor(eased * target);
+                        el.textContent = current.toLocaleString('ru-RU');
+
+                        if (progress < 1) {
+                            requestAnimationFrame(update);
+                        } else {
+                            el.textContent = target.toLocaleString('ru-RU');
+                        }
+                    };
+
+                    requestAnimationFrame(update);
+                    statObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+        statNumbers.forEach(el => statObserver.observe(el));
+
+        // ===== Плавный скролл =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ===== Плавающие частицы =====
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 30;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            particle.style.animationDelay = (Math.random() * 15) + 's';
+            const size = Math.random() * 2 + 1;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+
+            const colors = ['#00ff9d', '#00ccff', '#ff00aa', '#7b2ff7'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.background = color;
+            particle.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
+
+            particlesContainer.appendChild(particle);
+        }
+
+        // ===== Параллакс для hero-орбов =====
+        document.addEventListener('mousemove', (e) => {
+            const orbs = document.querySelectorAll('.hero-orb');
+            const x = (e.clientX / window.innerWidth - 0.5) * 2;
+            const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+            orbs.forEach((orb, index) => {
+                const speed = (index + 1) * 15;
+                orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+    </script>
 </body>
 </html>
